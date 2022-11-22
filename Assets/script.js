@@ -59,3 +59,55 @@ const apiCurrentWeather = function (event) {
             });
         });
     };
+
+
+// Forecast Weather //
+const apiForecastWeather = function (event) {
+      const city = document.querySelector("#city").value;
+      fetch(
+        `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`
+      )
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+          console.log("forecast", data);
+          const forecastTitle = document.querySelector("#forecast");
+          forecastTitle.textContent = "";
+          forecastTitle.textContent = "5-Day Forecast";
+    
+          const upcomingForecast = document.querySelector("#forecastContainer");
+          upcomingForecast.innerHTML = "";
+          for (let i = 0; i < data.list.length; i++) {
+            const dayData = data.list[i];
+            const dayTimeUTC = dayData.dt;
+            const timeZoneOffset = data.city.timezone;
+            const timeZoneOffsetHours = timeZoneOffset / 60 / 60;
+            const thisMoment = moment
+              .unix(dayTimeUTC)
+              .utc()
+              .utcOffset(timeZoneOffsetHours);
+            if (
+              thisMoment.format("HH:mm:ss") === "11:00:00" ||
+              thisMoment.format("HH:mm:ss") === "12:00:00" ||
+              thisMoment.format("HH:mm:ss") === "13:00:00"
+            ) {
+              // Retrieve Data//
+              upcomingForecast.innerHTML += `
+              <div class="card m-2 p0">
+                  <ul class="list-unstyled p-3">
+                      <li>${thisMoment.format("dddd DD/MM/YY")}</li>
+                      <li class="weather-icon"><img src="https://openweathermap.org/img/wn/${
+                        dayData.weather[0].icon
+                      }@2x.png"></li>
+                      <li>Temp: ${dayData.main.temp}&#8451;</li>
+                      <br>
+                      <li>Wind: ${dayData.wind.speed} mph </li>
+                      <br>
+                      <li>Humidity: ${dayData.main.humidity} %</li>
+                  </ul>
+              </div>`;
+            }
+          }
+        });
+    };

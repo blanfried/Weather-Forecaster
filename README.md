@@ -10,7 +10,7 @@ I made a weather forecasting site which fetches data from an api and appends it 
 https://github.com/blanfried/Weather-Forecaster
 
 ### Deployed URL
-https://blanfried.github.io/Weather-Forecaster/?
+https://blanfried.github.io/Weather-Forecaster/
 
 
 

@@ -111,3 +111,32 @@ const apiForecastWeather = function (event) {
           }
         });
     };
+
+    // Adding to local storage //
+const saveCity = function (newCity) {
+      let cityExists = false;
+      const city = document.querySelector("#city").value;
+      for (let i = 0; i < localStorage.length; i++) {
+        if (localStorage["cities" + i] === city) {
+          cityExists = true;
+          break;
+        }
+      }
+      // New searches saved to local storage //
+      if (cityExists === false) {
+        localStorage.setItem("cities" + localStorage.length, city);
+      }
+    };
+    const renderCity = function () {
+      const searchedCity = document.querySelector("#searchedCity");
+      searchedCity.textContent = "";
+      // Retrieve from local storage //
+      for (let i = 0; i < localStorage.length; i++) {
+        let savedCities = localStorage.getItem("cities" + i);
+        console.log(savedCities);
+        let cityEl;
+        cityEl = `<button type="button" class="list-group-item list-group-item-action active">${savedCities}</button></li><br>`;
+        // Append searched city //
+        $("#searchedCity").prepend(cityEl);
+      }
+    };

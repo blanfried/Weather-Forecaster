@@ -140,3 +140,28 @@ const saveCity = function (newCity) {
         $("#searchedCity").prepend(cityEl);
       }
     };
+
+    document.getElementById("searchBtn").onclick = function (event) {
+      event.preventDefault();
+      apiCurrentWeather();
+      apiForecastWeather();
+      saveCity();
+      renderCity();
+    };
+    document.getElementById("searchedCity").onclick = function (event) {
+      event.preventDefault();
+      $("#city").val(event.target.textContent);
+      city = $("#city").val();
+    
+      apiCurrentWeather(event);
+      apiForecastWeather(event);
+    };
+    
+    // Clearing Search History //
+    $("#clearBtn").on("click", function () {
+      localStorage.clear();
+      savedCities = [];
+      $("#searched-cities").empty();
+      city = "Birmingham";
+      init();
+    });
